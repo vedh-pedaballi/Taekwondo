@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}National Winners - Tornado Sports Club{% endblock %}
+
+{% block content %}
+        <div class="back-arrow">
+            <a href="/" class="back-button" aria-label="Back to Home">
+                <span class="arrow">←</span>
+            </a>
+        </div>
+
+        <section class="section">
+            <div class="container">
+                <h2>National Winners</h2>
+                <p class="section-intro">Celebrating our champions who have brought glory to Tornado Sports Club</p>
+                
+                <div class="winners-layout">
+                    <div class="winners-content">
+                        <div class="winners-grid">
+                            <div class="year-pod">
+                                <h3>Year</h3>
+                            </div>
+
+                            <div class="winner-pod">
+                                <h3>2024 National Championship</h3>
+                                <div class="winner-details">
+                                    <p><strong>Category:</strong> Senior Division</p>
+                                    <p><strong>Winner:</strong> Sarah Johnson</p>
+                                    <p><strong>Event:</strong> Sparring Competition</p>
+                                </div>
+                                <p class="winner-description">
+                                    Sarah dominated the competition with her exceptional speed and technique, 
+                                    securing the gold medal in the senior division.
+                                </p>
+                            </div>
+
+                            <div class="winner-pod">
+                                <h3>2023 National Championship</h3>
+                                <div class="winner-details">
+                                    <p><strong>Category:</strong> Junior Division</p>
+                                    <p><strong>Winner:</strong> Michael Chen</p>
+                                    <p><strong>Event:</strong> Patterns Competition</p>
+                                </div>
+                                <p class="winner-description">
+                                    Michael's precise execution of advanced patterns earned him the top spot 
+                                    in the junior division.
+                                </p>
+                            </div>
+
+                            <div class="winner-pod">
+                                <h3>2022 National Championship</h3>
+                                <div class="winner-details">
+                                    <p><strong>Category:</strong> Team Event</p>
+                                    <p><strong>Winners:</strong> Tornado Team A</p>
+                                    <p><strong>Event:</strong> Team Sparring</p>
+                                </div>
+                                <p class="winner-description">
+                                    Our team demonstrated exceptional coordination and strategy, 
+                                    winning the team sparring championship.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="winners-gallery">
+                        <h3>Championship Moments</h3>
+                        <div class="gallery-frame">
+                            {% for image in winner_images %}
+                            <div class="gallery-item">
+                                <img src="{{ url_for('winner_image_file', filename=image.filename) }}" 
+                                     alt="{{ image.original_name }}"
+                                     loading="lazy">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievements-summary">
+                    <h3>Our Championship Legacy</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">X</span>
+                            <span class="stat-label">National Medals</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">X</span>
+                            <span class="stat-label">Medal Winners</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">X</span>
+                            <span class="stat-label">Years of Excellence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>Interested in joining our winning team? Get in touch!</p>
+                <p>Email: info@tornadosports.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>Address: 123 Sports Avenue, City, State 12345</p>
+            </div>
+        </section>
+{% endblock %} 

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tornado Sports Club{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="description" content="Tornado Sports Club - International Taekwondo Team">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Tornado Sports">
+    <meta name="msapplication-TileColor" content="#292a72">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
+    <!-- Apple Touch Icons - Commented out until icons are available -->
+    <!-- <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='icons/icon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/icon-180x180.png') }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='icons/icon-167x167.png') }}"> -->
+    
+    <!-- Favicon - Commented out until icons are available -->
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/icon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/icon-16x16.png') }}"> -->
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="{{ url_for('static', filename='style.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='script.js') }}" as="script">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <!-- Option 1: Logo with text (current) -->
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='icons/logo.webp') }}" alt="Tornado Sports Club Logo" class="logo-image">
+                <h1>Tornado Sports Club</h1>
+            </div>
+            
+            <!-- Option 2: Just logo (uncomment to use) -->
+            <!-- <div class="logo-container">
+                <img src="{{ url_for('static', filename='icons/logo.webp') }}" alt="Tornado Sports Club Logo" class="logo-image-large">
+            </div> -->
+            
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/AboutUs">About Us</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    
+                    {% if session.user_id %}
+                        <!-- User is logged in - show profile -->
+                        <li class="user-profile-dropdown" id="userDropdown">
+                            <button class="user-profile-toggle" id="userProfileToggle" onclick="toggleUserDropdown()" aria-haspopup="true" aria-expanded="false">
+                                <div class="user-profile-info">
+                                    {% if session.user_profile_picture %}
+                                        <img src="{{ url_for('static', filename='profile_pictures/' + session.user_profile_picture) }}" alt="Profile" class="user-profile-pic">
+                                    {% else %}
+                                        <div class="user-profile-pic-placeholder">{{ session.user_name[0]|upper }}</div>
+                                    {% endif %}
+                                    <span class="user-name">{{ session.user_name }}</span>
+                                    <span class="dropdown-arrow">▼</span>
+                                </div>
+                            </button>
+                            <div class="user-dropdown-menu" id="userDropdownMenu">
+                                <a href="/profile">👤 My Profile</a>
+                                <a href="/MyClasses">📅 My Classes</a>
+                                <hr class="dropdown-divider">
+                                <a href="/logout">🚪 Logout</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <!-- User is not logged in - show auth links -->
+                        <li><a href="/SignupPage">Sign Up</a></li>
+                        <li><a href="/LoginPage">Log In</a></li>
+                    {% endif %}
+                    
+                    <li class="dropdown" id="dropdownNav">
+                        <button class="dropdown-toggle" id="dropdownToggle" onclick="toggleDropdown()" aria-haspopup="true" aria-expanded="false">
+                            <span style="font-size:1.7rem;">⋯</span>
+                        </button>
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <a href="/Classes">📅 Classes</a>
+                            <a href="/Gallery">🖼️ Gallery</a>
+                            <a href="/Events">🎉 Events</a>
+                            <hr class="dropdown-divider">
+                            <a href="/national-winners">🏆 National Winners</a>
+                            <a href="/usa-team-members">🇺🇸 USA Team Members</a>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="header-spacer"></div>
+
+    <main class="page-transition {% block page_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; {{ year|default(2024) }} Tornado Sports Club. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Get App button -->
+    <a id="getAppBtn" class="get-app-btn-fixed" href="/MOBILE_APP_GUIDE.md" target="_blank">Get App</a>
+    <style>
+    .get-app-btn-fixed {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        background: linear-gradient(135deg, #292a72 60%, #c03535 100%);
+        color: #fff;
+        padding: 0.9em 2em;
+        border-radius: 20px;
+        font-weight: 600;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(41,42,114,0.08);
+        z-index: 2000;
+        font-size: 1.1em;
+        border: none;
+        transition: background 0.3s, transform 0.2s;
+        outline: none;
+        cursor: pointer;
+        display: inline-block;
+    }
+    .get-app-btn-fixed:hover {
+        background: linear-gradient(135deg, #c03535 60%, #292a72 100%);
+        transform: scale(1.05);
+    }
+    @media (max-width: 600px) {
+        .get-app-btn-fixed {
+            right: 12px;
+            bottom: 12px;
+            padding: 0.7em 1.2em;
+            font-size: 1em;
+        }
+    }
+    </style>
+    <script>
+    let deferredPrompt = null;
+    let installAvailable = false;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installAvailable = true;
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const getAppBtn = document.getElementById('getAppBtn');
+        if (getAppBtn) {
+            getAppBtn.addEventListener('click', function(e) {
+                if (deferredPrompt) {
+                    e.preventDefault();
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                    });
+                } else {
+                    // No install prompt available, fallback to guide (default link behavior)
+                }
+            });
+        }
+    });
+    </script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Navigation toggle for mobile
+        const nav = document.querySelector('nav');
+        const navToggle = document.querySelector('.nav-toggle');
+
+        navToggle.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', 
+                navToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'
+            );
+        });
+
+        // Dropdown functionality
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const dropdownNav = document.getElementById('dropdownNav');
+            const toggleBtn = document.getElementById('dropdownToggle');
+            dropdownMenu.classList.toggle('show');
+            dropdownNav.classList.toggle('open');
+            toggleBtn.setAttribute('aria-expanded', dropdownMenu.classList.contains('show'));
+        }
+
+        // User dropdown functionality
+        function toggleUserDropdown() {
+            const userDropdownMenu = document.getElementById('userDropdownMenu');
+            const userDropdown = document.getElementById('userDropdown');
+            const toggleBtn = document.getElementById('userProfileToggle');
+            userDropdownMenu.classList.toggle('show');
+            userDropdown.classList.toggle('open');
+            toggleBtn.setAttribute('aria-expanded', userDropdownMenu.classList.contains('show'));
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            // Close main dropdown
+            const dropdown = document.getElementById('dropdownNav');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            if (dropdown && !dropdown.contains(event.target)) {
+                dropdownMenu.classList.remove('show');
+                dropdown.classList.remove('open');
+                const toggleBtn = document.getElementById('dropdownToggle');
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+
+            // Close user dropdown
+            const userDropdown = document.getElementById('userDropdown');
+            const userDropdownMenu = document.getElementById('userDropdownMenu');
+            if (userDropdown && !userDropdown.contains(event.target)) {
+                userDropdownMenu.classList.remove('show');
+                userDropdown.classList.remove('open');
+                const toggleBtn = document.getElementById('userProfileToggle');
+                if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close dropdowns on mobile when clicking a link
+        document.querySelectorAll('.dropdown-menu a, .user-dropdown-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                const dropdownMenu = document.getElementById('dropdownMenu');
+                const dropdownNav = document.getElementById('dropdownNav');
+                const userDropdownMenu = document.getElementById('userDropdownMenu');
+                const userDropdown = document.getElementById('userDropdown');
+                
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('show');
+                    dropdownNav.classList.remove('open');
+                    const toggleBtn = document.getElementById('dropdownToggle');
+                    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                }
+                
+                if (userDropdownMenu) {
+                    userDropdownMenu.classList.remove('show');
+                    userDropdown.classList.remove('open');
+                    const toggleBtn = document.getElementById('userProfileToggle');
+                    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Page transition handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add page-specific transition class
+            const currentPage = window.location.pathname;
+            const mainElement = document.querySelector('main');
+            
+            // Remove existing transition classes
+            mainElement.classList.remove('home-transition', 'classes-transition', 'events-transition', 
+                                     'gallery-transition', 'about-transition', 'contact-transition', 
+                                     'auth-transition');
+            
+            // Add appropriate transition class based on current page
+            if (currentPage === '/' || currentPage === '/home') {
+                mainElement.classList.add('home-transition');
+            } else if (currentPage === '/classes') {
+                mainElement.classList.add('classes-transition');
+            } else if (currentPage === '/events') {
+                mainElement.classList.add('events-transition');
+            } else if (currentPage === '/gallery') {
+                mainElement.classList.add('gallery-transition');
+            } else if (currentPage === '/about') {
+                mainElement.classList.add('about-transition');
+            } else if (currentPage === '/contact') {
+                mainElement.classList.add('contact-transition');
+            } else if (currentPage.includes('login') || currentPage.includes('signup') || currentPage.includes('profile')) {
+                mainElement.classList.add('auth-transition');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add loading animation for page transitions
+        window.addEventListener('beforeunload', function() {
+            document.body.classList.add('page-transitioning');
+        });
+
+        // Remove loading animation when page is loaded
+        window.addEventListener('load', function() {
+            document.body.classList.remove('page-transitioning');
+        });
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html> 

@@ -1,0 +1,7 @@
+# Gmail App Password for Tornado Sports Club Website
+# Replace 'your_16_character_password' with your actual Gmail app password
+GMAIL_APP_PASSWORD=your_16_character_password
+ 
+# Other environment variables you might want to add later
+# FLASK_ENV=development
+# SECRET_KEY=your_secret_key_here 

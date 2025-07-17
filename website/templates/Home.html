@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Tornado Sports Club - Home{% endblock %}
+
+{% block extra_head %}
+    <style>
+        .header-spacer {
+            height: 100px;
+            width: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+            <div class="hero-content">
+        <h1>Welcome to Tornado Sports Club</h1>
+        <p>Building champions, one athlete at a time</p>
+        <!-- Removed Explore Classes button -->
+    </div>
+            </div>
+
+<div class="section achievements-section">
+                <h2>Our Achievements</h2>
+                <div class="achievements-grid">
+                    <div class="achievement-item">
+            <h3>🏆 National Champions</h3>
+            <p>Multiple national championships across various sports</p>
+        </div>
+        <div class="achievement-item">
+            <h3>🌟 Elite Training</h3>
+            <p>State-of-the-art facilities and expert coaching</p>
+        </div>
+        <div class="achievement-item">
+            <h3>👥 Community Focus</h3>
+            <p>Building strong communities through sports</p>
+                    </div>
+                    <div class="achievement-item">
+            <h3>🎯 Excellence</h3>
+            <p>Consistent track record of producing top athletes</p>
+                    </div>
+                </div>
+            </div>
+
+<div class="section features-section">
+    <h2>Why Choose Tornado Sports?</h2>
+    <div class="features-grid">
+        <div class="feature-item">
+            <h3>Expert Coaching</h3>
+            <p>Our certified coaches bring years of experience and passion to every session.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Modern Facilities</h3>
+            <p>State-of-the-art equipment and facilities for optimal training.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Flexible Programs</h3>
+            <p>Programs designed for all skill levels and age groups.</p>
+                    </div>
+                </div>
+            </div>
+
+<div class="section cta-section">
+    <h2>Ready to Start Your Journey?</h2>
+    <p>Join Tornado Sports Club today and discover your potential!</p>
+    <div class="cta-buttons">
+        <a href="{{ url_for('signup_page') }}" class="button">Sign Up Now</a>
+        <a href="{{ url_for('contact') }}" class="button secondary">Contact Us</a>
+    </div>
+        </div>
+{% endblock %}

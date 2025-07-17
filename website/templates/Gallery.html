@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}Gallery - Tornado Sports Club{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Photo Gallery</h1>
+        <p>Capturing moments of excellence and achievement</p>
+    </div>
+        </div>
+
+<div class="section gallery-section">
+    <h2>Our Moments</h2>
+    <div class="gallery-container" onclick="openFullGallery()">
+                    {% for image in images %}
+        <div class="gallery-slide{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}">
+            <img src="{{ url_for('image_file', filename=image.filename) }}" alt="Gallery image" class="gallery-image">
+                    </div>
+                    {% endfor %}
+                    <div class="gallery-dots">
+                        {% for image in images %}
+            <span class="gallery-dot{% if loop.first %} active{% endif %}" data-index="{{ loop.index0 }}"></span>
+                        {% endfor %}
+        </div>
+        <div class="gallery-overlay">
+            <button class="view-gallery-btn" tabindex="-1" style="pointer-events:none;">Click to View Full Gallery</button>
+        </div>
+                    </div>
+                </div>
+
+<!-- Full Gallery Lightbox -->
+<div class="lightbox" id="fullGalleryLightbox">
+                    <div class="lightbox-content">
+        <div class="lightbox-header">
+            <h2>Full Gallery</h2>
+            <button class="lightbox-close" onclick="closeFullGallery()">&times;</button>
+        </div>
+                        <div class="lightbox-grid">
+                            {% for image in images %}
+            <div class="lightbox-item">
+                <img src="{{ url_for('image_file', filename=image.filename) }}" alt="Gallery image">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+<style>
+.gallery-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.gallery-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.gallery-slide.fade-out {
+    opacity: 0;
+    transform: scale(0.98);
+    pointer-events: none;
+}
+
+.gallery-slide.fade-in {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    margin: 0;
+    display: block;
+    background: #eaeaea;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-slide.active .gallery-image {
+    transform: scale(1.02);
+}
+
+.gallery-slide.fade-out .gallery-image {
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+.gallery-slide.fade-in .gallery-image {
+    transform: scale(1.02);
+    opacity: 1;
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.gallery-container:hover .gallery-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.view-gallery-btn {
+    background: linear-gradient(135deg, rgba(41, 42, 114, 0.9), rgba(192, 53, 53, 0.9));
+    color: white;
+    border: 2px solid white;
+    padding: 15px 30px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.view-gallery-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(41, 42, 114, 1), rgba(192, 53, 53, 1));
+}
+
+.view-gallery-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.lightbox.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+    background: transparent;
+    transform: translateY(0);
+    transition: none;
+    pointer-events: auto;
+    border-radius: 0;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    height: auto;
+    min-height: unset;
+    box-sizing: border-box;
+}
+
+.lightbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 2rem 0;
+    padding: 2rem 2rem 1rem 2rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.lightbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    pointer-events: auto;
+    overflow-y: visible;
+    width: 100%;
+    height: auto;
+    min-height: unset;
+    max-height: unset;
+    box-sizing: border-box;
+}
+</style>
+
+    <script>
+let currentSlide = 0;
+        const slides = document.querySelectorAll('.gallery-slide');
+        const dots = document.querySelectorAll('.gallery-dot');
+let slideInterval;
+
+        function showSlide(index) {
+    // Add fade-out effect to current slide
+    const currentActiveSlide = document.querySelector('.gallery-slide.active');
+    if (currentActiveSlide) {
+        currentActiveSlide.classList.add('fade-out');
+        setTimeout(() => {
+            currentActiveSlide.classList.remove('active', 'fade-out');
+        }, 300);
+    }
+            
+    // Add fade-in effect to new slide
+    setTimeout(() => {
+        slides[index].classList.add('active', 'fade-in');
+        setTimeout(() => {
+            slides[index].classList.remove('fade-in');
+        }, 300);
+    }, 300);
+
+    // Update dots
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            const nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+function startSlideshow() {
+    slideInterval = setInterval(nextSlide, 3500);
+}
+
+function stopSlideshow() {
+    clearInterval(slideInterval);
+}
+
+// Initialize slideshow
+document.addEventListener('DOMContentLoaded', function() {
+    startSlideshow();
+
+    // Dot navigation
+        dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            stopSlideshow();
+                showSlide(index);
+            startSlideshow();
+        });
+    });
+
+    // Pause slideshow on hover
+    const galleryContainer = document.querySelector('.gallery-container');
+    galleryContainer.addEventListener('mouseenter', stopSlideshow);
+    galleryContainer.addEventListener('mouseleave', startSlideshow);
+        });
+
+// Lightbox functions
+function openFullGallery() {
+    const lightbox = document.getElementById('fullGalleryLightbox');
+    if (lightbox) {
+        lightbox.style.display = 'block';
+            setTimeout(() => {
+                lightbox.classList.add('active');
+            lightbox.scrollTop = 0;
+            const lightboxContent = lightbox.querySelector('.lightbox-content');
+            if (lightboxContent) {
+                lightboxContent.scrollTop = 0;
+                const lightboxGrid = lightboxContent.querySelector('.lightbox-grid');
+                if (lightboxGrid) {
+                    lightboxGrid.scrollTop = 0;
+                }
+            }
+            window.scrollTo(0, 0);
+        }, 10);
+        // document.body.style.overflow = 'hidden'; // Removed to allow lightbox scrolling
+    }
+}
+
+function closeFullGallery() {
+    const lightbox = document.getElementById('fullGalleryLightbox');
+    if (lightbox) {
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+            }, 300);
+        // document.body.style.overflow = ''; // Removed to allow lightbox scrolling
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const lightbox = document.getElementById('fullGalleryLightbox');
+    if (lightbox) {
+        // Click on background to close
+        lightbox.addEventListener('click', function(event) {
+            if (event.target === lightbox) {
+                closeFullGallery();
+            }
+        });
+        // Prevent click inside content from closing
+        const lightboxContent = lightbox.querySelector('.lightbox-content');
+        if (lightboxContent) {
+            lightboxContent.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        }
+        // Escape key to close
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeFullGallery();
+            }
+        });
+    }
+});
+    </script>
+{% endblock %} 

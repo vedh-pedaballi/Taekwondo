@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Offline - Tornado Sports Club{% endblock %}
+
+{% block content %}
+<div class="offline-container">
+    <div class="offline-content">
+        <div class="offline-icon">📶</div>
+        <h1>You're Offline</h1>
+        <p>Don't worry! You can still access some features of the Tornado Sports Club app.</p>
+        
+        <div class="offline-features">
+            <h3>Available Offline:</h3>
+            <ul>
+                <li>📱 View class schedules</li>
+                <li>📸 Browse cached gallery photos</li>
+                <li>📋 Read about our team</li>
+                <li>📞 Contact information</li>
+            </ul>
+        </div>
+        
+        <div class="offline-actions">
+            <button onclick="window.location.reload()" class="button">
+                🔄 Try Again
+            </button>
+            <button onclick="window.history.back()" class="button secondary">
+                ← Go Back
+            </button>
+        </div>
+        
+        <div class="offline-tip">
+            <p><strong>Tip:</strong> Make sure you have a stable internet connection to access all features.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Check connection status
+    window.addEventListener('online', function() {
+        window.location.reload();
+    });
+    
+    // Show offline indicator
+    window.addEventListener('offline', function() {
+        console.log('You are offline');
+    });
+</script>
+{% endblock %} 

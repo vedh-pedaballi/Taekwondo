@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us - Tornado Sports Club{% endblock %}
+
+{% block content %}
+<div class="hero-section contact-hero">
+            <div class="hero-content">
+        <h1>Contact Us</h1>
+                <p>Get in touch with our team</p>
+            </div>
+</div>
+
+<div class="section contact-section">
+    <div class="contact-container">
+        <div class="contact-info">
+                <h2>Get In Touch</h2>
+            <p>Have questions about our programs, classes, or events? We'd love to hear from you!</p>
+                
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-text">
+                        <h3>Address</h3>
+                        <p>123 Sports Avenue<br>City, State 12345</p>
+                    </div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-text">
+                        <h3>Phone</h3>
+                        <p>(555) 123-4567</p>
+                    </div>
+                </div>
+                
+                        <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div class="contact-text">
+                        <h3>Email</h3>
+                            <p>info@tornadosports.com</p>
+                        </div>
+                        </div>
+                
+            </div>
+                    </div>
+                    
+        <div class="contact-form-container">
+            <h2>Send Us a Message</h2>
+            <form method="POST" action="{{ url_for('contact') }}" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="subject">Subject *</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="classes">Class Information</option>
+                                    <option value="membership">Membership</option>
+                                    <option value="events">Events</option>
+                        <option value="support">Technical Support</option>
+                                </select>
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                    <textarea id="message" name="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                            </div>
+                
+                            <button type="submit" class="button">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+<div class="section map-section">
+    <h2>Find Us</h2>
+                <div class="map-container">
+                    <div class="map-placeholder">
+            <div class="map-content">
+                <h3>📍 Our Location</h3>
+                <p>123 Sports Avenue<br>City, State 12345</p>
+                <div class="map-directions">
+                    <h4>Getting Here</h4>
+                    <ul>
+                        <li><strong>By Car:</strong> Free parking available on-site</li>
+                        <li><strong>By Bus:</strong> Route 15 stops 2 blocks away</li>
+                        <li><strong>By Train:</strong> 10-minute walk from Central Station</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+        <div class="faq-item">
+            <h3>What are your class schedules?</h3>
+            <p>We offer classes throughout the day, from early morning to evening. Check our Classes page for the complete schedule.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Do you offer trial classes?</h3>
+            <p>Yes! We offer a free trial class for new students. Contact us to schedule your trial session.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>What equipment do I need?</h3>
+            <p>For most classes, comfortable workout clothes are sufficient. We provide all necessary equipment and safety gear.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Are there age restrictions?</h3>
+            <p>We have programs for all ages, from children (4+) to adults. Each program is tailored to the appropriate age group.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>Do you offer private lessons?</h3>
+            <p>Yes, we offer private and semi-private lessons. Contact us for pricing and availability.</p>
+        </div>
+        
+        <div class="faq-item">
+            <h3>What is your cancellation policy?</h3>
+            <p>We require 24-hour notice for class cancellations. Monthly memberships can be paused with advance notice.</p>
+        </div>
+    </div>
+</div>
+
+<div class="section social-section">
+    <h2>Connect With Us</h2>
+    <div class="social-links">
+        <a href="#" class="social-link">
+            <span class="social-icon">📘</span>
+            <span>Facebook</span>
+        </a>
+        <a href="#" class="social-link">
+            <span class="social-icon">📷</span>
+            <span>Instagram</span>
+        </a>
+        <a href="#" class="social-link">
+            <span class="social-icon">🐦</span>
+            <span>Twitter</span>
+        </a>
+        <a href="#" class="social-link">
+            <span class="social-icon">📺</span>
+            <span>YouTube</span>
+        </a>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - Tornado Sports Club{% endblock %}
+
+{% block content %}
+<div class="section auth-section">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Join Tornado Sports Club</h1>
+            <p>Create your account and start your fitness journey</p>
+        </div>
+        
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+        
+        {% if success %}
+        <div class="success-message">
+            {{ success }}
+        </div>
+        {% endif %}
+        
+        <form method="POST" action="{{ url_for('signup_page') }}" class="auth-form">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="4" max="100" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="experience">Experience Level</label>
+                <select id="experience" name="experience" required>
+                    <option value="">Select your experience level</option>
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+            
+            <div class="form-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" name="newsletter" checked>
+                    <span class="checkmark"></span>
+                    Subscribe to our newsletter
+                </label>
+            </div>
+            
+            <button type="submit" class="register-button">Create Account</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('login_page') }}">Sign in here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %} 

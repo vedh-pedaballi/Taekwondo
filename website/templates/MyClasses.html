@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}My Classes - Tornado Sports Club{% endblock %}
+
+{% block content %}
+<div class="hero-section my-classes-hero">
+    <div class="hero-content">
+        <h1>My Classes</h1>
+        <p>View and manage your enrolled classes</p>
+    </div>
+</div>
+
+<div class="section my-classes-section">
+    <h2>Your Enrolled Classes</h2>
+    
+    <div class="classes-list">
+        {% for event in team_class %}
+        <div class="class-card">
+            <div class="class-info">
+                <h3>{{ event.title }}</h3>
+                <p class="class-day">{{ event.day }}</p>
+                <p class="class-time">{{ event.time }}{% if event.end_time %} - {{ event.end_time }}{% endif %}</p>
+                <span class="class-status active">Active</span>
+            </div>
+            <button class="class-action">View Details</button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+.my-classes-hero {
+    background: linear-gradient(120deg, #292a72 0%, #c03535 100%);
+    color: #fff;
+    padding: 4rem 0 2rem 0;
+    text-align: center;
+}
+
+.my-classes-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem 1rem;
+}
+
+.my-classes-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #292a72;
+    text-align: left;
+}
+
+.classes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.class-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(41, 42, 114, 0.08), 0 1.5px 6px rgba(192, 53, 53, 0.06);
+    padding: 2rem 2.5rem;
+    transition: box-shadow 0.3s, transform 0.3s;
+    border-left: 6px solid #292a72;
+    position: relative;
+}
+
+.class-card:hover {
+    box-shadow: 0 8px 32px rgba(41, 42, 114, 0.16), 0 3px 12px rgba(192, 53, 53, 0.12);
+    transform: translateY(-2px) scale(1.01);
+}
+
+.class-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+    color: #292a72;
+}
+
+.class-info p {
+    margin: 0 0 0.5rem 0;
+    color: #444;
+    font-size: 1rem;
+}
+
+.class-day {
+    margin: 0.3em 0;
+    color: #292a72;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.class-time {
+    margin: 0.5em 0;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.class-status {
+    display: inline-block;
+    padding: 0.3em 1em;
+    border-radius: 12px;
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-top: 0.2em;
+}
+.class-status.active {
+    background: #e0f7fa;
+    color: #00796b;
+}
+.class-status.upcoming {
+    background: #fff3e0;
+    color: #e65100;
+}
+.class-status.completed {
+    background: #f3e5f5;
+    color: #6a1b9a;
+}
+
+.class-action {
+    background: linear-gradient(135deg, #292a72 60%, #c03535 100%);
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.8em 2em;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(41, 42, 114, 0.08);
+    transition: background 0.3s, transform 0.2s;
+    outline: none;
+}
+.class-action:hover {
+    background: linear-gradient(135deg, #c03535 60%, #292a72 100%);
+    transform: scale(1.04);
+}
+
+.debug-info {
+    background: #f0f0f0;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+@media (max-width: 700px) {
+    .class-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 1rem;
+    }
+    .class-action {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+</style>
+{% endblock %} 
