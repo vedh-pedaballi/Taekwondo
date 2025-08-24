@@ -1,0 +1,58 @@
+// This ensures our main container takes up the full screen height
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: center;
+  padding: 16px;
+}
+
+// This section will grow to fill all available space,
+// pushing the button-stack to the bottom.
+.header-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // This vertically centers the title and logo
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 24px auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #292a72;
+}
+
+p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+// This stack holds the buttons at the bottom of the screen.
+.button-stack {
+  width: 100%;
+  padding-bottom: 32px; // Adds space from the very bottom edge
+}
+
+ion-button {
+    height: 50px;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 1rem;
+    --border-radius: 12px;
+}
+
+.login-button {
+  --background: #292a72;
+  margin-bottom: 12px;
+}
+
+.signup-button {
+  --border-color: #292a72;
+  --color: #292a72;
+}

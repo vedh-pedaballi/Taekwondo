@@ -1,0 +1,32 @@
+:host {
+  --primary-color: #292a72;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-color);
+    }
+  }
+
+  ion-item {
+    --padding-start: 0;
+    margin-bottom: 16px;
+  }
+
+  .auth-button {
+    margin-top: 32px;
+    height: 50px;
+    --background: var(--primary-color);
+  }
+}

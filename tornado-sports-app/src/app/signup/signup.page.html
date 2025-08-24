@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sign Up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="auth-container">
+    <div class="header">
+      <h2>Create Account</h2>
+      <p>Join the Tornado Sports Club today.</p>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="signup()">
+      <ion-item lines="full">
+        <ion-label position="floating">Full Name</ion-label>
+        <ion-input type="text" formControlName="name" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email" required></ion-input>
+      </ion-item>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" formControlName="password" required></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" type="submit" [disabled]="signupForm.invalid" class="auth-button">
+        Create Account
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

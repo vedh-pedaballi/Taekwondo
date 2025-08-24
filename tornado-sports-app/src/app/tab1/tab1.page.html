@@ -1,0 +1,21 @@
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div class="header-content">
+      <img src="/assets/icon/favicon.png" alt="Logo" class="logo">
+      <h1>Tornado Sports Club</h1>
+      <p>Your journey starts here.</p>
+    </div>
+
+    <div class="button-stack">
+      <ion-button expand="block" class="login-button" (click)="navigate('/login')">
+        Login
+      </ion-button>
+      <ion-button expand="block" fill="outline" class="signup-button" (click)="navigate('/signup')">
+        Sign Up
+      </ion-button>
+      <ion-button (click)="myFunction()">
+        Click Me
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

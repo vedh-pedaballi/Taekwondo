@@ -1,0 +1,7 @@
+{
+  "name": "tornado-sports-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
