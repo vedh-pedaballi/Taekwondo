@@ -269,7 +269,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Dot navigation
         dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
+        dot.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent triggering the gallery container click
             stopSlideshow();
                 showSlide(index);
             startSlideshow();

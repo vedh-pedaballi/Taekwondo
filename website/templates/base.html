@@ -117,7 +117,20 @@
     </footer>
 
     <!-- Floating Get App button -->
-    <a id="getAppBtn" class="get-app-btn-fixed" href="/MOBILE_APP_GUIDE.md" target="_blank">Get App</a>
+    <a id="getAppBtn" class="get-app-btn-fixed" href="#">Get App</a>
+    <script>
+    document.getElementById('getAppBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      var now = Date.now();
+      window.location = 'tornadosports://home';
+      setTimeout(function() {
+        if (Date.now() - now < 2000) {
+          // App not installed, fallback to guide
+          window.location = '/MOBILE_APP_GUIDE.md';
+        }
+      }, 1500);
+    });
+    </script>
     <style>
     .get-app-btn-fixed {
         position: fixed;
@@ -151,36 +164,6 @@
         }
     }
     </style>
-    <script>
-    let deferredPrompt = null;
-    let installAvailable = false;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installAvailable = true;
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        const getAppBtn = document.getElementById('getAppBtn');
-        if (getAppBtn) {
-            getAppBtn.addEventListener('click', function(e) {
-                if (deferredPrompt) {
-                    e.preventDefault();
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        }
-                        deferredPrompt = null;
-                    });
-                } else {
-                    // No install prompt available, fallback to guide (default link behavior)
-                }
-            });
-        }
-    });
-    </script>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
         // Navigation toggle for mobile
         const nav = document.querySelector('nav');

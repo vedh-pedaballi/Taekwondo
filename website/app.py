@@ -11,12 +11,58 @@ import secrets
 import requests
 import pytz
 import dateutil.parser
+from flask import jsonify
+from flask_cors import CORS
+from .mobile_api import mobile_api_bp
+app = Flask(__name__)
+CORS(app)
+
+@app.route('/api/signup', methods=['POST'])
+def api_signup():
+    data = request.get_json()
+    name = data.get('name')
+    email = data.get('email', '').lower()
+    password = data.get('password')
+
+    if not name or not email or not password:
+        return jsonify({'message': 'Missing required fields'}), 400
+
+    if User.query.filter_by(email=email).first():
+        return jsonify({'message': 'Email already exists'}), 409
+
+    new_user = User(name=name, email=email)
+    new_user.set_password(password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({'message': 'User created successfully'}), 201
+
+@app.route('/api/login', methods=['POST'])
+def api_login():
+    data = request.get_json()
+    email = data.get('email', '').lower()
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'message': 'Email and password are required'}), 400
+
+    user = User.query.filter_by(email=email).first()
+
+    if user and user.check_password(password):
+        user_data = {
+            'id': user.id,
+            'name': user.name,
+            'email': user.email
+        }
+        return jsonify({'message': 'Login successful', 'user': user_data}), 200
+    
+    return jsonify({'message': 'Invalid credentials'}), 401
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here-change-in-production')
 
 # File upload configuration
 UPLOAD_FOLDER = 'static/profile_pictures'
@@ -651,7 +697,10 @@ def sync_data():
 def offline():
     return render_template('offline.html')
 
+app.register_blueprint(mobile_api_bp)
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True, port=5555)
+
